@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interview Prep Countdown</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+
+  <!-- Screen 1: the form -->
+  <section id="form-screen" aria-labelledby="form-title">
+    <h1 id="form-title" tabindex="-1">Interview prep countdown</h1>
+    <p class="lede">Enter your interview details and get a day-by-day prep plan for your calendar.</p>
+
+    <!-- novalidate: we show our own error messages instead of the browser's pop-ups -->
+    <form id="details-form" class="card" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="interviewDate">Interview date</label>
+          <input type="date" id="interviewDate" required aria-describedby="interviewDate-error">
+          <p class="error" id="interviewDate-error"></p>
+        </div>
+        <div class="field">
+          <label for="interviewTime">Interview time <span class="optional">optional</span></label>
+          <input type="time" id="interviewTime" value="09:00" aria-describedby="interviewTime-error">
+          <p class="error" id="interviewTime-error"></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="company">Company</label>
+          <input type="text" id="company" required autocomplete="organization"
+                 aria-describedby="company-error">
+          <p class="error" id="company-error"></p>
+        </div>
+        <div class="field">
+          <label for="role">Role</label>
+          <input type="text" id="role" required autocomplete="organization-title"
+                 aria-describedby="role-error">
+          <p class="error" id="role-error"></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="interviewType">Interview type <span class="optional">optional</span></label>
+        <!-- The options are filled in by app.js from tasks.js -->
+        <select id="interviewType" aria-describedby="interviewType-error"></select>
+        <p class="error" id="interviewType-error"></p>
+      </div>
+
+      <fieldset class="field">
+        <legend>Daily prep time <span class="optional">optional</span></legend>
+        <p class="hint" id="prep-hint">When each prep task goes in your calendar.</p>
+        <div class="row">
+          <div class="field">
+            <label for="prepTime" class="sub-label">Start time</label>
+            <input type="time" id="prepTime" value="18:00"
+                   aria-describedby="prep-hint prepTime-error">
+            <p class="error" id="prepTime-error"></p>
+          </div>
+          <div class="field">
+            <label for="prepMinutes" class="sub-label">Length</label>
+            <select id="prepMinutes" aria-describedby="prep-hint prepMinutes-error">
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="45" selected>45 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="90">1½ hours</option>
+            </select>
+            <p class="error" id="prepMinutes-error"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="button primary full">Make my plan</button>
+    </form>
+  </section>
+
+  <!-- Screen 2: the plan (hidden until the form is sent) -->
+  <section id="plan-screen" aria-labelledby="plan-heading" hidden>
+    <h1 id="plan-heading" tabindex="-1"></h1>
+    <p class="note" id="plan-note" hidden></p>
+
+    <div class="actions">
+      <div class="action-buttons">
+        <button type="button" id="download-button" class="button primary"
+                aria-describedby="calendar-help">Add to calendar (.ics)</button>
+        <button type="button" id="change-button" class="button secondary">Change details</button>
+      </div>
+      <p class="help" id="calendar-help">
+        Apple Calendar and Outlook: open the file to add it.
+        Google Calendar: on a computer, go to Settings → Import &amp; export → Import.
+      </p>
+    </div>
+
+    <!-- One card per day, filled in by app.js -->
+    <ol class="days" id="plan-days"></ol>
+  </section>
+
+  <p class="timezone" id="timezone-note"></p>
+</main>
+
+<!-- Order matters: each file uses things defined in the ones above it. -->
+<script src="tasks.js"></script>
+<script src="plan.js"></script>
+<script src="ics.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

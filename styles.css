@@ -1,0 +1,183 @@
+/* styles.css — how the page looks.
+   Colours are defined once as "tokens" (variables) and swapped for dark mode. */
+
+:root {
+  color-scheme: light;               /* tells the browser to draw date pickers etc. in light mode */
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --text: #1c1c1a;
+  --muted: #63635e;
+  --line: #e0e0d9;
+  --accent: #2b55c9;
+  --accent-text: #ffffff;
+  --accent-soft: #edf1fc;
+  --error: #b3261e;
+  --radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #141413;
+    --surface: #1f1f1d;
+    --text: #ecece7;
+    --muted: #a3a39c;
+    --line: #34342f;
+    --accent: #8fa9ff;
+    --accent-text: #10172e;
+    --accent-soft: #1d2540;
+    --error: #ff8a80;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;          /* 16px sides keeps content off the phone's edge */
+}
+
+h1 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;           /* very long company names wrap instead of overflowing */
+}
+h1:focus { outline: none; }          /* focused by code only, for screen readers */
+
+.lede { color: var(--muted); margin: 0 0 24px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+
+/* ── Form ── */
+
+form { display: grid; gap: 18px; }
+
+/* Two fields side by side on wider screens, stacked on phones. */
+.row { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 520px) {
+  .row { grid-template-columns: 1fr 1fr; }
+}
+
+.field { display: grid; gap: 6px; align-content: start; min-width: 0; }
+
+fieldset { border: 0; padding: 0; margin: 0; }
+legend { padding: 0; margin-bottom: 2px; }
+
+label, legend { font-weight: 600; font-size: 0.95rem; }
+.sub-label { font-weight: 500; font-size: 0.9rem; }
+.optional { font-weight: 400; font-size: 0.85rem; color: var(--muted); margin-left: 4px; }
+.hint { margin: 0 0 4px; font-size: 0.9rem; color: var(--muted); }
+
+input, select {
+  width: 100%;
+  min-height: 46px;                  /* easy to tap */
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 16px;                   /* 16px stops iPhones zooming in on tap */
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+input:focus-visible, select:focus-visible, .button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+[aria-invalid="true"] { border-color: var(--error); }
+
+.error { margin: 0; font-size: 0.9rem; color: var(--error); }
+.error:empty { display: none; }      /* no gap when there's no message */
+
+
+/* ── Buttons ── */
+
+.button {
+  min-height: 46px;
+  padding: 10px 18px;
+  font: inherit;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  cursor: pointer;
+}
+.primary { background: var(--accent); color: var(--accent-text); }
+.secondary { background: transparent; color: var(--accent); }
+.full { width: 100%; }
+
+
+/* ── Plan screen ── */
+
+.note {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+}
+
+.actions { display: grid; gap: 10px; margin: 20px 0 24px; }
+.action-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.action-buttons .button { flex: 1 1 200px; }  /* side by side if there's room, else stacked */
+.help { margin: 0; font-size: 0.9rem; color: var(--muted); }
+
+.days { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+
+.day {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.day--interview { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+
+.day-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-bottom: 10px;
+}
+.day-date { margin: 0; font-size: 1.05rem; }
+
+.tags { display: flex; gap: 6px; }
+.tag {
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.tag--today { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
+
+.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.item + .item { border-top: 1px solid var(--line); padding-top: 12px; }
+.item-time {
+  margin: 0 0 2px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.item-title { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.item-how { margin: 2px 0 0; font-size: 0.95rem; color: var(--muted); }
+
+.timezone { margin: 24px 0 0; font-size: 0.85rem; color: var(--muted); text-align: center; }
